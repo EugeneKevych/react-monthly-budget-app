@@ -41,7 +41,7 @@ function App() {
   }
 
   const onUpdateSearch = (character) => {
-    setEnteredChar(character);
+    return setEnteredChar(character);
   };
 
   function countSpentMoney(data) {}
