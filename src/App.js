@@ -13,6 +13,7 @@ function App() {
     { name: 'Clothes', sum: '200$', increase: false, id: 3 },
   ];
   const [itemList, setItemList] = useState(data);
+  const [enteredChar, setEnteredChar] = useState('');
 
   function deleteItem(id) {
     const newList = itemList.filter((list) => {
@@ -24,11 +25,24 @@ function App() {
 
   function newArticle(text, number) {
     const newArt = { name: text, sum: number, increase: true, id: 4 };
-    console.log('newobject', newArt);
     const newList = [...itemList, newArt];
-    console.log('newArray', newList);
+
     return setItemList(newList);
   }
+
+  function searchItem(data, character) {
+    if (character.length === 0) {
+      return data;
+    }
+
+    return data.filter((item) => {
+      return item.name.indexOf(character) > -1;
+    });
+  }
+
+  const onUpdateSearch = (character) => {
+    setEnteredChar(character);
+  };
 
   function countSpentMoney(data) {}
 
@@ -36,11 +50,14 @@ function App() {
     <div className="App">
       <Info />
       <div className="search-panel">
-        <SearchPanel />
+        <SearchPanel updateSearch={onUpdateSearch} />
         <Filter />
       </div>
       <div className="spent-article">
-        <SpentArticleList itemList={itemList} deleteItem={deleteItem} />
+        <SpentArticleList
+          itemList={searchItem(itemList, enteredChar)}
+          deleteItem={deleteItem}
+        />
         <SpentArticleForm newArticle={newArticle} />
       </div>
     </div>
